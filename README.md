@@ -65,34 +65,34 @@ Agent IA Scopus/
 
 From the repository root, create and activate the virtual environment:
 
-```powershell
+```cmd
 python -m venv .venv
-.\.venv\Scripts\Activate.ps1
+.venv\Scripts\activate.bat
 ```
 
 Install backend dependencies:
 
-```powershell
-Push-Location backend
+```cmd
+cd backend
 pip install -r requirements.txt
-Pop-Location
+cd ..
 ```
 
 Create `backend/.env` from the example:
 
-```powershell
-Copy-Item backend/.env.example backend/.env
+```cmd
+copy backend\.env.example backend\.env
 ```
 
 For local development, the application defaults to SQLite at `backend/local_dev.db`. For another database, set `DATABASE_URL` in `backend/.env`. Always set a strong private `JWT_SECRET_KEY` outside local development.
 
 Start FastAPI from the `backend/` directory. The working directory matters because the application imports the `app` package:
 
-```powershell
-Push-Location backend
-..\.venv\Scripts\Activate.ps1
+```cmd
+cd backend
+..\.venv\Scripts\activate.bat
 uvicorn app.main:app --reload
-Pop-Location
+cd ..
 ```
 
 The backend is available at `http://127.0.0.1:8000`. Interactive API documentation is available at `http://127.0.0.1:8000/docs`.
@@ -101,11 +101,11 @@ The backend is available at `http://127.0.0.1:8000`. Interactive API documentati
 
 In a second terminal:
 
-```powershell
-Push-Location frontend
+```cmd
+cd frontend
 npm install
 npm start
-Pop-Location
+cd ..
 ```
 
 The React application is available at `http://localhost:3000` and uses `http://127.0.0.1:8000` as its default backend URL.
@@ -204,7 +204,7 @@ Names are normalized for filesystem compatibility by removing accents and replac
 
 The original command-line modules remain available for experimentation outside the web application. From the repository root, activate the virtual environment and run:
 
-```powershell
+```cmd
 python run_pipeline.py
 ```
 
@@ -214,18 +214,18 @@ The standalone script and the web backend have separate orchestration paths. The
 
 Build the frontend:
 
-```powershell
-Push-Location frontend
+```cmd
+cd frontend
 npm run build
-Pop-Location
+cd ..
 ```
 
 Compile the backend modules:
 
-```powershell
-Push-Location backend
+```cmd
+cd backend
 python -m compileall app
-Pop-Location
+cd ..
 ```
 
 The frontend build may display a non-blocking source-map warning from `stylis-plugin-rtl` if its package does not include the referenced TypeScript source file.
@@ -236,10 +236,10 @@ The frontend build may display a non-blocking source-map warning from `stylis-pl
 
 Run Uvicorn from `backend/`, not from the repository root:
 
-```powershell
-Push-Location backend
+```cmd
+cd backend
 uvicorn app.main:app --reload
-Pop-Location
+cd ..
 ```
 
 ### Browser reports `Failed to fetch`
@@ -266,5 +266,3 @@ Never commit real secrets. The repository ignores:
 - Frontend production builds
 
 Review `git status` before every commit, especially after downloading data or generating reports.
-
-

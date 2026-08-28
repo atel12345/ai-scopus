@@ -1,0 +1,28 @@
+# Python
+.venv/
+__pycache__/
+*.py[cod]
+
+# Environment and local databases
+.env
+*.env
+!*.env.example
+*.db
+local_dev.db
+
+# Generated reports and logs
+*.xlsx
+output.log
+
+# SCImago exports are downloaded locally as needed
+data/scimago/*.csv
+backend/data/scimago/*.csv
+
+# Frontend dependencies and build output
+frontend/node_modules/
+frontend/build/
+
+# Editor and OS files
+.vscode/
+.DS_Store
+Thumbs.db

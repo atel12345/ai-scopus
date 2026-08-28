@@ -18,13 +18,17 @@ import Typography from "@mui/material/Typography";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import DownloadIcon from "@mui/icons-material/Download";
+import DarkModeIcon from "@mui/icons-material/DarkMode";
 import LinkIcon from "@mui/icons-material/Link";
+import LightModeIcon from "@mui/icons-material/LightMode";
+import IconButton from "@mui/material/IconButton";
 import PersonSearchIcon from "@mui/icons-material/PersonSearch";
 import ScienceIcon from "@mui/icons-material/Science";
 
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import MDProgress from "components/MDProgress";
 import AccountMenu from "components/AccountMenu";
+import { setDarkMode, useMaterialUIController } from "context";
 
 // Material Dashboard 2 React components
 // API service
@@ -38,6 +42,8 @@ import {
 
 function GenerateReport() {
   const navigate = useNavigate();
+  const [controller, dispatch] = useMaterialUIController();
+  const { darkMode } = controller;
   const [scopusLink, setScopusLink] = useState("");
   const [authorName, setAuthorName] = useState("");
   const [error, setError] = useState("");
@@ -67,6 +73,8 @@ function GenerateReport() {
   if (!isAuthenticated()) {
     navigate("/authentication/sign-in");
   }
+
+  const toggleTheme = () => setDarkMode(dispatch, !darkMode);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -147,6 +155,13 @@ function GenerateReport() {
     generating_excel: 4,
   };
   const currentStep = progress.status === "done" ? 4 : stepIndexes[progress.step] || 0;
+  const pageBackground = darkMode ? "#1a2035" : "#f4f7f8";
+  const surface = darkMode ? "#202940" : "#ffffff";
+  const primaryText = darkMode ? "#ffffff" : "#123c43";
+  const secondaryText = darkMode ? "#d5d9e2" : "#587276";
+  const mutedText = darkMode ? "#b9c0cf" : "#647b7e";
+  const borderColor = darkMode ? "#536078" : "#aebfc0";
+  const pipelineBackground = darkMode ? "#263b3d" : "#123c43";
 
   return (
     <DashboardLayout>
@@ -155,7 +170,7 @@ function GenerateReport() {
           minHeight: "100vh",
           px: { xs: 2, md: 5 },
           py: { xs: 3, md: 5 },
-          background: "#f4f7f8",
+          background: pageBackground,
         }}
       >
         <Stack
@@ -171,7 +186,7 @@ function GenerateReport() {
                 height: 42,
                 display: "grid",
                 placeItems: "center",
-                bgcolor: "#123c43",
+                bgcolor: darkMode ? "#263b3d" : "#123c43",
                 color: "#d7f06a",
                 borderRadius: 2,
               }}
@@ -180,16 +195,30 @@ function GenerateReport() {
             </Box>
             <Box>
               <Typography
-                sx={{ color: "#123c43", fontSize: 14, fontWeight: 800, letterSpacing: 1.5 }}
+                sx={{ color: primaryText, fontSize: 14, fontWeight: 800, letterSpacing: 1.5 }}
               >
                 AGENT IA
               </Typography>
-              <Typography sx={{ color: "#587276", fontSize: 12, letterSpacing: 2 }}>
+              <Typography sx={{ color: secondaryText, fontSize: 12, letterSpacing: 2 }}>
                 SCOPUS / WORKSPACE
               </Typography>
             </Box>
           </Stack>
-          <AccountMenu />
+          <Stack direction="row" spacing={1} alignItems="center">
+            <IconButton
+              onClick={toggleTheme}
+              aria-label={darkMode ? "Passer au theme clair" : "Passer au theme sombre"}
+              title={darkMode ? "Passer au theme clair" : "Passer au theme sombre"}
+              sx={{
+                color: darkMode ? "#f4c95d" : "#123c43",
+                border: `1px solid ${borderColor}`,
+                bgcolor: darkMode ? "#263b3d" : "#ffffff",
+              }}
+            >
+              {darkMode ? <LightModeIcon /> : <DarkModeIcon />}
+            </IconButton>
+            <AccountMenu />
+          </Stack>
         </Stack>
         <Box sx={{ maxWidth: 1240, mx: "auto" }}>
           <Box sx={{ maxWidth: 740, mb: 6 }}>
@@ -201,7 +230,7 @@ function GenerateReport() {
             <Typography
               component="h1"
               sx={{
-                color: "#123c43",
+                color: primaryText,
                 fontSize: { xs: 38, md: 60 },
                 lineHeight: 0.98,
                 fontWeight: 800,
@@ -213,7 +242,7 @@ function GenerateReport() {
               <br />
               au rapport lisible.
             </Typography>
-            <Typography sx={{ color: "#587276", fontSize: 17, lineHeight: 1.6, maxWidth: 560 }}>
+            <Typography sx={{ color: secondaryText, fontSize: 17, lineHeight: 1.6, maxWidth: 560 }}>
               Centralisez les publications, identifiez les auteurs et exportez une base
               bibliometrique prete a exploiter.
             </Typography>
@@ -231,17 +260,17 @@ function GenerateReport() {
               elevation={0}
               sx={{
                 p: { xs: 3, md: 5 },
-                border: "1px solid #dce6e5",
+                border: `1px solid ${borderColor}`,
                 borderRadius: 3,
-                bgcolor: "#fff",
+                bgcolor: surface,
               }}
             >
               <Stack direction="row" justifyContent="space-between" alignItems="flex-start" mb={5}>
                 <Box>
-                  <Typography sx={{ color: "#123c43", fontSize: 22, fontWeight: 800 }}>
+                  <Typography sx={{ color: primaryText, fontSize: 22, fontWeight: 800 }}>
                     Source des donnees
                   </Typography>
-                  <Typography sx={{ color: "#789094", fontSize: 13, mt: 0.75 }}>
+                  <Typography sx={{ color: mutedText, fontSize: 13, mt: 0.75 }}>
                     Deux informations suffisent pour lancer le pipeline.
                   </Typography>
                 </Box>
@@ -260,16 +289,26 @@ function GenerateReport() {
               <Stack
                 spacing={3}
                 sx={{
-                  "& .MuiInputLabel-root": { color: "#4d6569" },
-                  "& .MuiInputLabel-root.Mui-focused": { color: "#123c43" },
-                  "& .MuiInputBase-input": { color: "#123c43" },
-                  "& .MuiInputBase-input::placeholder": { color: "#647b7e", opacity: 1 },
-                  "& .MuiOutlinedInput-notchedOutline": { borderColor: "#aebfc0" },
+                  "& .MuiInputLabel-root": { color: mutedText },
+                  "& .MuiInputLabel-root.Mui-focused": { color: primaryText },
+                  "& .MuiInputBase-input": {
+                    color: primaryText,
+                    WebkitTextFillColor: primaryText,
+                  },
+                  "& .MuiInputBase-input::placeholder": { color: mutedText, opacity: 1 },
+                  "& .MuiOutlinedInput-root": {
+                    backgroundColor: darkMode ? "#2b3550" : "#ffffff",
+                  },
+                  "& .MuiInputBase-input:-webkit-autofill": {
+                    WebkitBoxShadow: `0 0 0 100px ${darkMode ? "#2b3550" : "#ffffff"} inset`,
+                    WebkitTextFillColor: primaryText,
+                  },
+                  "& .MuiOutlinedInput-notchedOutline": { borderColor },
                   "& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline": {
-                    borderColor: "#587276",
+                    borderColor: secondaryText,
                   },
                   "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
-                    borderColor: "#123c43",
+                    borderColor: primaryText,
                   },
                 }}
               >
@@ -298,8 +337,14 @@ function GenerateReport() {
                     mt: 3,
                     p: 2,
                     borderRadius: 2,
-                    bgcolor: error ? "#fff0ed" : "#edf7e9",
-                    color: error ? "#aa4530" : "#397044",
+                    bgcolor: error
+                      ? darkMode
+                        ? "#542f35"
+                        : "#fff0ed"
+                      : darkMode
+                      ? "#294b3c"
+                      : "#edf7e9",
+                    color: error ? "#ffb4a8" : "#b9efc5",
                     fontSize: 13,
                   }}
                 >
@@ -316,7 +361,7 @@ function GenerateReport() {
                   p: 2,
                   border: 0,
                   borderRadius: 1.5,
-                  bgcolor: loading ? "#b4c1c2" : "#e36e43",
+                  bgcolor: loading ? (darkMode ? "#536078" : "#b4c1c2") : "#e36e43",
                   color: "white",
                   cursor: loading ? "wait" : "pointer",
                   fontSize: 14,
@@ -333,10 +378,10 @@ function GenerateReport() {
               {loading && (
                 <Box sx={{ mt: 3 }}>
                   <Stack direction="row" justifyContent="space-between" alignItems="center" mb={1}>
-                    <Typography sx={{ color: "#123c43", fontSize: 13, fontWeight: 700 }}>
+                    <Typography sx={{ color: primaryText, fontSize: 13, fontWeight: 700 }}>
                       {progress.message}
                     </Typography>
-                    <Typography sx={{ color: "#587276", fontSize: 12, fontWeight: 700 }}>
+                    <Typography sx={{ color: secondaryText, fontSize: 12, fontWeight: 700 }}>
                       {progressPercent}%
                     </Typography>
                   </Stack>
@@ -349,7 +394,7 @@ function GenerateReport() {
               sx={{
                 p: { xs: 3, md: 4 },
                 borderRadius: 3,
-                bgcolor: "#123c43",
+                bgcolor: pipelineBackground,
                 color: "#ffffff",
               }}
             >
@@ -434,7 +479,7 @@ function GenerateReport() {
               display: "flex",
               alignItems: "center",
               gap: 1,
-              color: "#789094",
+              color: mutedText,
               fontSize: 12,
             }}
           >

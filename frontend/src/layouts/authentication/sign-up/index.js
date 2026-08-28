@@ -89,7 +89,7 @@ function Cover() {
           {success && (
             <MDBox mb={2}>
               <MDAlert color="success" dismissible>
-                Compte cree avec succes ! Redirection vers la connexion...
+                Compte créé avec succès ! Redirection vers la connexion...
               </MDAlert>
             </MDBox>
           )}

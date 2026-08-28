@@ -8,12 +8,19 @@ import MenuItem from "@mui/material/MenuItem";
 import Typography from "@mui/material/Typography";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import LogoutIcon from "@mui/icons-material/Logout";
+import HistoryIcon from "@mui/icons-material/History";
 import { getCurrentUserEmail, logoutUser } from "services/api";
+import { useMaterialUIController } from "context";
 
 function AccountMenu() {
   const navigate = useNavigate();
+  const [controller] = useMaterialUIController();
+  const { darkMode } = controller;
   const [anchorEl, setAnchorEl] = useState(null);
   const email = getCurrentUserEmail();
+  const menuText = darkMode ? "#ffffff" : "#123c43";
+  const menuMutedText = darkMode ? "#d5d9e2" : "#587276";
+  const menuSurface = darkMode ? "#202940" : "#ffffff";
 
   const handleLogout = () => {
     setAnchorEl(null);
@@ -26,7 +33,7 @@ function AccountMenu() {
       <IconButton
         aria-label="Ouvrir le menu du compte"
         onClick={(event) => setAnchorEl(event.currentTarget)}
-        sx={{ color: "#123c43" }}
+        sx={{ color: darkMode ? "#f4c95d" : "#123c43" }}
       >
         <AccountCircleIcon fontSize="large" />
       </IconButton>
@@ -36,19 +43,43 @@ function AccountMenu() {
         onClose={() => setAnchorEl(null)}
         anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
         transformOrigin={{ vertical: "top", horizontal: "right" }}
+        PaperProps={{
+          sx: {
+            bgcolor: menuSurface,
+            color: menuText,
+            border: darkMode ? "1px solid #536078" : "1px solid #dce6e5",
+            "& .MuiDivider-root": { borderColor: darkMode ? "#536078" : "#dce6e5" },
+            "& .MuiMenuItem-root:hover": {
+              bgcolor: darkMode ? "#34415e" : "#edf5d5",
+            },
+          },
+        }}
       >
         <MenuItem disabled sx={{ opacity: 1, minWidth: 230 }}>
           <Avatar sx={{ width: 28, height: 28, mr: 1.5, bgcolor: "#123c43" }}>
             <AccountCircleIcon fontSize="small" />
           </Avatar>
-          <Typography noWrap sx={{ color: "#123c43", fontSize: 13, maxWidth: 180 }}>
-            {email || "Utilisateur connecte"}
+          <Typography noWrap sx={{ color: menuText, fontSize: 13, maxWidth: 180 }}>
+            {email || "Utilisateur connecté"}
           </Typography>
         </MenuItem>
         <Divider />
-        <MenuItem onClick={handleLogout} sx={{ color: "#aa4530", fontSize: 13 }}>
+        <MenuItem
+          onClick={() => {
+            setAnchorEl(null);
+            navigate("/history");
+          }}
+          sx={{ color: menuMutedText, fontSize: 13 }}
+        >
+          <HistoryIcon sx={{ mr: 1.5, fontSize: 19 }} />
+          Historique des rapports
+        </MenuItem>
+        <MenuItem
+          onClick={handleLogout}
+          sx={{ color: darkMode ? "#ffb4a8" : "#aa4530", fontSize: 13 }}
+        >
           <LogoutIcon sx={{ mr: 1.5, fontSize: 19 }} />
-          Se deconnecter
+          Se déconnecter
         </MenuItem>
       </Menu>
     </>

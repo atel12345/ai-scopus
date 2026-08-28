@@ -73,7 +73,7 @@ function Basic() {
             Sign in
           </MDTypography>
           <MDTypography display="block" variant="button" color="white" my={1}>
-            Agent IA Scopus - Rapport bibliometrique
+            Agent IA Scopus - Rapport bibliométrique
           </MDTypography>
         </MDBox>
         <MDBox pt={4} pb={3} px={3}>

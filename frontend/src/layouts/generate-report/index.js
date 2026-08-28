@@ -54,7 +54,7 @@ function GenerateReport() {
     step: "",
     current: 0,
     total: 5,
-    message: "Pret a lancer",
+    message: "Prêt à lancer",
     sub_progress: 0,
   });
   const pollingRef = useRef(null);
@@ -93,7 +93,7 @@ function GenerateReport() {
       status: "running",
       step: "identification",
       current: 0,
-      message: "Demarrage du pipeline",
+      message: "Démarrage du pipeline",
       sub_progress: 0,
     }));
     try {
@@ -111,11 +111,11 @@ function GenerateReport() {
             const { blob, filename } = await downloadJobResult(jobId, status.filename);
             if (!mountedRef.current) return;
             downloadBlob(blob, filename);
-            setSuccess("Rapport genere et telecharge avec succes !");
+            setSuccess("Rapport généré et téléchargé avec succès !");
             setLoading(false);
           } else if (status.status === "error") {
             window.clearTimeout(pollingRef.current);
-            setError(status.error || "Erreur lors de la generation du rapport");
+            setError(status.error || "Erreur lors de la génération du rapport");
             setLoading(false);
           }
           if (status.status === "running" && mountedRef.current) {
@@ -244,7 +244,7 @@ function GenerateReport() {
             </Typography>
             <Typography sx={{ color: secondaryText, fontSize: 17, lineHeight: 1.6, maxWidth: 560 }}>
               Centralisez les publications, identifiez les auteurs et exportez une base
-              bibliometrique prete a exploiter.
+              bibliométrique prête à exploiter.
             </Typography>
           </Box>
           <Box
@@ -268,14 +268,14 @@ function GenerateReport() {
               <Stack direction="row" justifyContent="space-between" alignItems="flex-start" mb={5}>
                 <Box>
                   <Typography sx={{ color: primaryText, fontSize: 22, fontWeight: 800 }}>
-                    Source des donnees
+                    Source des données
                   </Typography>
                   <Typography sx={{ color: mutedText, fontSize: 13, mt: 0.75 }}>
                     Deux informations suffisent pour lancer le pipeline.
                   </Typography>
                 </Box>
                 <Chip
-                  label="ETAPE 01"
+                  label="ÉTAPE 01"
                   size="small"
                   sx={{
                     bgcolor: "#edf5d5",
@@ -295,7 +295,10 @@ function GenerateReport() {
                     color: primaryText,
                     WebkitTextFillColor: primaryText,
                   },
-                  "& .MuiInputBase-input::placeholder": { color: mutedText, opacity: 1 },
+                  "& .MuiInputBase-input::placeholder": {
+                    color: darkMode ? "#9eabc1" : "#647b7e",
+                    opacity: 1,
+                  },
                   "& .MuiOutlinedInput-root": {
                     backgroundColor: darkMode ? "#2b3550" : "#ffffff",
                   },
@@ -314,7 +317,6 @@ function GenerateReport() {
               >
                 <TextField
                   label="Profil Scopus ou Author ID"
-                  placeholder="https://www.scopus.com/authid/detail.uri?authorId=..."
                   value={scopusLink}
                   onChange={(e) => setScopusLink(e.target.value)}
                   fullWidth
@@ -322,7 +324,6 @@ function GenerateReport() {
                 />
                 <TextField
                   label="Nom de l'auteur"
-                  placeholder="ex. Allae Erraissi"
                   value={authorName}
                   onChange={(e) => setAuthorName(e.target.value)}
                   fullWidth
@@ -417,9 +418,9 @@ function GenerateReport() {
               <Stack spacing={2.5}>
                 {[
                   "Identification de l'auteur",
-                  "Recuperation des publications",
+                  "Récupération des publications",
                   "Classement par quartile",
-                  "Export Excel structure",
+                  "Export Excel structuré",
                 ].map((step, index) => (
                   <Stack direction="row" spacing={1.5} alignItems="center" key={step}>
                     <Box
@@ -483,7 +484,7 @@ function GenerateReport() {
               fontSize: 12,
             }}
           >
-            <DownloadIcon sx={{ fontSize: 17 }} /> Le fichier est telecharge automatiquement apres
+            <DownloadIcon sx={{ fontSize: 17 }} /> Le fichier est téléchargé automatiquement après
             traitement.
           </Box>
         </Box>

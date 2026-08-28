@@ -131,4 +131,4 @@ def generate_excel_report(publications: list[dict], output_path: str):
         write_statistics_sheet(workbook, len(publications))
         workbook.save(output_path)
     except Exception as e:
-        raise ExcelGenerationError(f"Echec de la generation du fichier Excel : {e}") from e
+        raise ExcelGenerationError(f"Échec de la génération du fichier Excel : {e}") from e

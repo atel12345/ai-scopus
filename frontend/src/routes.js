@@ -7,11 +7,20 @@
 import GenerateReport from "layouts/generate-report";
 import SignIn from "layouts/authentication/sign-in";
 import SignUp from "layouts/authentication/sign-up";
+import ReportHistory from "layouts/report-history";
 
 // @mui icons
 import Icon from "@mui/material/Icon";
 
 const routes = [
+  {
+    type: "collapse",
+    name: "Historique des rapports",
+    key: "history",
+    icon: <Icon fontSize="small">history</Icon>,
+    route: "/history",
+    component: <ReportHistory />,
+  },
   {
     type: "collapse",
     name: "Generer un rapport",

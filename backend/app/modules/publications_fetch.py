@@ -78,7 +78,7 @@ def resolve_author(scopus_author_id: str, author_name: str | None = None) -> dic
             return best
 
     raise PublicationsFetchError(
-        f"Aucun auteur OpenAlex trouve pour Scopus ID '{scopus_author_id}'"
+        f"Aucun auteur OpenAlex trouvé pour Scopus ID '{scopus_author_id}'"
         + (f" ni pour le nom '{author_name}'" if author_name else "")
     )
 

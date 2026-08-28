@@ -93,7 +93,7 @@ export function logoutUser() {
 export async function generateReport(scopusLinkOrId, authorName) {
   const token = getToken();
   if (!token) {
-    throw new Error("Vous devez etre connecte pour generer un rapport");
+    throw new Error("Vous devez être connecté pour générer un rapport");
   }
   const response = await fetch(`${API_URL}/pipeline/generate`, {
     method: "POST",
@@ -107,7 +107,7 @@ export async function generateReport(scopusLinkOrId, authorName) {
     }),
   });
   if (!response.ok) {
-    let detail = "Erreur lors de la generation du rapport";
+    let detail = "Erreur lors de la génération du rapport";
     try {
       const errData = await response.json();
       detail = errData.detail || detail;
@@ -128,7 +128,7 @@ export async function generateReport(scopusLinkOrId, authorName) {
 
 async function authorizedFetch(path, options = {}) {
   const token = getToken();
-  if (!token) throw new Error("Vous devez etre connecte pour generer un rapport");
+  if (!token) throw new Error("Vous devez être connecté pour générer un rapport");
 
   const response = await fetch(`${API_URL}${path}`, {
     ...options,
@@ -169,6 +169,20 @@ export async function downloadJobResult(jobId, fallbackFilename) {
   return {
     blob: await response.blob(),
     filename: getResponseFilename(disposition, fallbackFilename),
+  };
+}
+
+export async function getReportHistory() {
+  const response = await authorizedFetch("/pipeline/history");
+  return response.json();
+}
+
+export async function downloadHistoryReport(reportId) {
+  const response = await authorizedFetch(`/pipeline/history/${reportId}/download`);
+  const disposition = response.headers.get("Content-Disposition") || "";
+  return {
+    blob: await response.blob(),
+    filename: getResponseFilename(disposition),
   };
 }
 

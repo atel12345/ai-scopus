@@ -55,11 +55,19 @@ function AccountMenu() {
           },
         }}
       >
-        <MenuItem disabled sx={{ opacity: 1, minWidth: 230 }}>
+        <MenuItem
+          disabled
+          sx={{
+            opacity: "1 !important",
+            minWidth: 230,
+            color: `${menuText} !important`,
+            "&.Mui-disabled": { opacity: 1, color: menuText },
+          }}
+        >
           <Avatar sx={{ width: 28, height: 28, mr: 1.5, bgcolor: "#123c43" }}>
-            <AccountCircleIcon fontSize="small" />
+            <AccountCircleIcon sx={{ color: "#d7f06a" }} fontSize="small" />
           </Avatar>
-          <Typography noWrap sx={{ color: menuText, fontSize: 13, maxWidth: 180 }}>
+          <Typography noWrap sx={{ color: `${menuText} !important`, fontSize: 13, maxWidth: 180 }}>
             {email || "Utilisateur connecté"}
           </Typography>
         </MenuItem>

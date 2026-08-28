@@ -253,16 +253,3 @@ Confirm that the relevant annual CSV exists in `backend/data/scimago/`, uses the
 ### Existing report history is missing after a reset
 
 Local history is stored in the configured database. Deleting `backend/local_dev.db` removes local users and report metadata.
-
-## Security and ignored files
-
-Never commit real secrets. The repository ignores:
-
-- `.env` files, except `.env.example`
-- Virtual environments and npm dependencies
-- Local SQLite databases
-- Generated Excel files and logs
-- SCImago CSV exports
-- Frontend production builds
-
-Review `git status` before every commit, especially after downloading data or generating reports.

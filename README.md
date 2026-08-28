@@ -267,6 +267,4 @@ Never commit real secrets. The repository ignores:
 
 Review `git status` before every commit, especially after downloading data or generating reports.
 
-## License
 
-See [frontend/LICENSE.md](frontend/LICENSE.md) for the license file inherited from the original frontend template.

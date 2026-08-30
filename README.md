@@ -48,6 +48,7 @@ Agent IA Scopus/
 ├── modules/                         Original standalone Python modules
 ├── data/scimago/                    Standalone-mode data placeholder
 ├── run_pipeline.py                  Original command-line orchestration
+├── package.json                     Root scripts to run backend and frontend together
 ├── .gitignore
 └── README.md
 ```
@@ -60,6 +61,8 @@ Agent IA Scopus/
 - SCImago annual exports for the publication years you want to enrich
 
 ## Local installation
+
+> **Quick start:** once both `backend/` and `frontend/` are configured (steps 1–2 below) and their dependencies are installed, you can launch both servers together from the repository root with a single command — see [Running backend and frontend together](#running-backend-and-frontend-together). The steps below still describe each service individually, which is required the first time and useful for debugging either service in isolation.
 
 ### 1. Configure the backend
 
@@ -117,6 +120,44 @@ REACT_APP_API_URL=https://your-api.example.com
 ```
 
 Do not commit `.env.local` or any file containing real credentials.
+
+### Running backend and frontend together
+
+After completing the setup above at least once, you can start both servers with one command from the repository root instead of using two terminals.
+
+Install the root dependency (only needed once):
+
+```cmd
+npm install
+```
+
+Activate the virtual environment in the terminal you will use, then run:
+
+```cmd
+.venv\Scripts\activate.bat
+npm run dev
+```
+
+This uses `concurrently` to launch both processes in a single terminal, with output prefixed `[BACKEND]` and `[FRONTEND]`. Pressing `Ctrl+C` stops both.
+
+This relies on a root `package.json` with the following scripts:
+
+```json
+{
+  "scripts": {
+    "start:backend": "cd backend && uvicorn app.main:app --reload --port 8000",
+    "start:frontend": "cd frontend && npm start",
+    "dev": "concurrently -n BACKEND,FRONTEND -c blue,green \"npm run start:backend\" \"npm run start:frontend\""
+  },
+  "devDependencies": {
+    "concurrently": "^10.0.5"
+  }
+}
+```
+
+The virtual environment must be activated manually before running `npm run dev` — the root script does not activate it automatically.
+
+If you prefer running each service in its own terminal — for clearer logs or independent restarts — use the two-terminal instructions in the sections above instead.
 
 ## Authentication flow
 
@@ -241,6 +282,10 @@ cd backend
 uvicorn app.main:app --reload
 cd ..
 ```
+
+### `npm run dev` fails to start the backend
+
+Confirm the virtual environment is activated in the same terminal before running `npm run dev` — the root script does not activate it automatically. Also confirm `concurrently` is installed at the repository root (`npm install` from the root, not from `frontend/`).
 
 ### Browser reports `Failed to fetch`
 

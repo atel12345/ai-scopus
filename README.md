@@ -11,11 +11,6 @@ The application:
 5. Generates a structured `.xlsx` workbook with publication and statistics sheets.
 6. Stores completed report metadata so each authenticated user can revisit their report history.
 
-## Important data-source note
-
-The project uses OpenAlex rather than the official Scopus API for author and publication retrieval. Institutional Scopus API access was unavailable during development, so this alternative was reviewed and validated with the project supervisor.
-
-SCImago exports are used locally for journal ranking enrichment. They are not committed because the files are large and can be downloaded again when needed.
 
 ## Project architecture
 
